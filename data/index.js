@@ -14,12 +14,12 @@ const config = {
 
 const pool = new Pool(config);
 
-function db_connect(sql) {
+function db_connect(sql, params) {
     pool.connect((err, client, done) => {
         if (err) {
             return console.error('Error acquiring client', err.stack)
         }
-        client.query(sql, (err, res) => {
+        client.query(sql, params, (err, res) => {
             done();
             if (err) {
                 return console.error('Error executing query', err.stack)
