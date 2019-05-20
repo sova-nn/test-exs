@@ -24,7 +24,7 @@ function db_connect(sql, params) {
             if (err) {
                 return console.error('Error executing query', err.stack)
             }
-            console.log(res.rows)
+            console.log("Data table was changed")
         });
     });
 }

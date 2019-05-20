@@ -10,7 +10,7 @@ router.get('/', async(ctx) =>{
 
 router.get('/users', (ctx) => {
     try {
-        ctx.body = db_connect('SELECT email from public.users_main', []);
+        ctx.body = db_connect('SELECT * from public.users_main', []);
     }
     catch(err) {
         console.errno('err', err);
@@ -22,8 +22,21 @@ router.get('/users', (ctx) => {
 router.post('/register', (ctx) => {
     try {
         const user = ctx.request.body;
-        const a = 'Ururu';
-        db_connect('INSERT INTO public.users_main (name, email) VALUES ($1, $2)', [user.name,user.email]);
+        db_connect('INSERT INTO public.users_main (name, email) VALUES ($1, $2)', [user.name, user.email]);
+        ctx.status = 200;
+    }
+    catch(err) {
+        console.error('err', err);
+        ctx.status = 500;
+        ctx.body = 'Internal error';
+    }
+});
+
+router.delete('/users/delete/:id', (ctx) => {
+    try {
+        const user = ctx.params;
+        console.log(user.id);
+        db_connect('DELETE FROM public.users_main', [user.id]);
         ctx.status = 200;
     }
     catch(err) {
